@@ -1,0 +1,28 @@
+<div class="admin-container">
+  <h1>Admin Dashboard</h1>
+  <p>Welcome, <span id="adminName">{{ adminName }}</span>!</p>
+  
+  <div class="admin-grid">
+    <div class="admin-card" (click)="navigateTo('quiz-list')">
+      <h3>Quiz Management</h3>
+      <p>View, add, edit, and delete quiz questions</p>
+    </div>
+    
+    <div class="admin-card" (click)="navigateTo('student-list')">
+      <h3>Student Management</h3>
+      <p>View all students and their exam attempts</p>
+    </div>
+    
+    <div class="admin-card" (click)="navigateTo('result-list')">
+      <h3>Results</h3>
+      <p>View all exam results and statistics</p>
+    </div>
+    
+    <div class="admin-card" (click)="navigateTo('add-quiz')">
+      <h3>Add Quiz</h3>
+      <p>Add new quiz questions to the database</p>
+    </div>
+  </div>
+  
+  <button class="logout-btn" (click)="logout()">Logout</button>
+</div>

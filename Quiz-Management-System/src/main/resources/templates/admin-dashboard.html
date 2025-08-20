@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard</title>
+    <link rel="stylesheet" href="CSS/style.css">
+    <style>
+        .admin-container {
+            background-color: #fff;
+            padding: 40px;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            width: 500px;
+            text-align: center;
+        }
+        .admin-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            margin: 30px 0;
+        }
+        .admin-card {
+            background-color: #f8f9fa;
+            padding: 20px;
+            border-radius: 8px;
+            border: 2px solid #e9ecef;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        .admin-card:hover {
+            border-color: #007bff;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        .admin-card h3 {
+            margin: 0 0 10px 0;
+            color: #333;
+        }
+        .admin-card p {
+            margin: 0;
+            color: #666;
+        }
+        .logout-btn {
+            background-color: #dc3545;
+            margin-top: 20px;
+        }
+        .logout-btn:hover {
+            background-color: #c82333;
+        }
+    </style>
+</head>
+<body>
+    <div class="admin-container">
+        <h1>Admin Dashboard</h1>
+        <p>Welcome, <span id="adminName">Admin</span>!</p>
+        
+        <div class="admin-grid">
+            <div class="admin-card" onclick="navigateTo('quiz-list')">
+                <h3>Quiz Management</h3>
+                <p>View, add, edit, and delete quiz questions</p>
+            </div>
+            
+            <div class="admin-card" onclick="navigateTo('student-list')">
+                <h3>Student Management</h3>
+                <p>View all students and their exam attempts</p>
+            </div>
+            
+            <div class="admin-card" onclick="navigateTo('result-list')">
+                <h3>Results</h3>
+                <p>View all exam results and statistics</p>
+            </div>
+            
+            <div class="admin-card" onclick="navigateTo('add-quiz')">
+                <h3>Add Quiz</h3>
+                <p>Add new quiz questions to the database</p>
+            </div>
+        </div>
+        
+        <button class="logout-btn" onclick="logout()">Logout</button>
+    </div>
+
+    <script>
+        // Check if user is logged in and is admin
+        const loggedInUser = localStorage.getItem("loggedInUser");
+        if (!loggedInUser) {
+            window.location.href = "index.html";
+        }
+
+        const user = JSON.parse(loggedInUser);
+        if (user.role !== "admin") {
+            alert("Access denied. Admin privileges required.");
+            window.location.href = "index.html";
+        }
+
+        // Display admin name
+        document.getElementById("adminName").textContent = user.username;
+
+        function navigateTo(page) {
+            switch(page) {
+                case 'quiz-list':
+                    window.location.href = 'quiz-list.html';
+                    break;
+                case 'student-list':
+                    window.location.href = 'student-list.html';
+                    break;
+                case 'result-list':
+                    window.location.href = 'result-list.html';
+                    break;
+                case 'add-quiz':
+                    window.location.href = 'add-quiz.html';
+                    break;
+                default:
+                    alert('Page not implemented yet');
+            }
+        }
+
+        function logout() {
+            localStorage.removeItem("loggedInUser");
+            window.location.href = "index.html";
+        }
+    </script>
+</body>
+</html>

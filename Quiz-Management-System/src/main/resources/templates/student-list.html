@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Management</title>
+    <link rel="stylesheet" href="CSS/style.css">
+    <style>
+        .student-container {
+            background-color: #fff;
+            padding: 40px;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            width: 800px;
+            max-width: 90vw;
+        }
+        .student-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+        }
+        .student-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+        .student-table th, .student-table td {
+            border: 1px solid #ddd;
+            padding: 12px;
+            text-align: left;
+        }
+        .student-table th {
+            background-color: #f8f9fa;
+            font-weight: bold;
+        }
+        .student-table tr:nth-child(even) {
+            background-color: #f8f9fa;
+        }
+        .student-table tr:hover {
+            background-color: #e9ecef;
+        }
+        .back-btn {
+            background-color: #6c757d;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        .attempted {
+            color: #28a745;
+            font-weight: bold;
+        }
+        .not-attempted {
+            color: #dc3545;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <div class="student-container">
+        <div class="student-header">
+            <h1>Student Management</h1>
+            <button class="back-btn" onclick="goBack()">Back to Dashboard</button>
+        </div>
+        
+        <div id="studentList">
+            <p>Loading students...</p>
+        </div>
+    </div>
+
+    <script>
+        // Check if user is logged in and is admin
+        const loggedInUser = localStorage.getItem("loggedInUser");
+        if (!loggedInUser) {
+            window.location.href = "index.html";
+        }
+
+        const user = JSON.parse(loggedInUser);
+        if (user.role !== "admin") {
+            alert("Access denied. Admin privileges required.");
+            window.location.href = "index.html";
+        }
+
+        // Load students
+        async function loadStudents() {
+            try {
+                const response = await fetch("http://localhost:8082/api/user/all");
+                if (response.ok) {
+                    const users = await response.json();
+                    const students = users.filter(user => user.role === "student");
+                    displayStudents(students);
+                } else {
+                    document.getElementById("studentList").innerHTML = "<p>Error loading students.</p>";
+                }
+            } catch (error) {
+                console.error("Error loading students:", error);
+                document.getElementById("studentList").innerHTML = "<p>Error loading students.</p>";
+            }
+        }
+
+        function displayStudents(students) {
+            const studentListDiv = document.getElementById("studentList");
+            
+            if (students.length === 0) {
+                studentListDiv.innerHTML = "<p>No students found.</p>";
+                return;
+            }
+
+            let html = `
+                <table class="student-table">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Username</th>
+                            <th>Email</th>
+                            <th>Role</th>
+                            <th>Exam Attempted</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+            `;
+
+            students.forEach(student => {
+                const attemptedStatus = student.attemptedExam ? 
+                    '<span class="attempted">Yes</span>' : 
+                    '<span class="not-attempted">No</span>';
+                
+                html += `
+                    <tr>
+                        <td>${student.id}</td>
+                        <td>${student.username}</td>
+                        <td>${student.email}</td>
+                        <td>${student.role}</td>
+                        <td>${attemptedStatus}</td>
+                    </tr>
+                `;
+            });
+
+            html += `
+                    </tbody>
+                </table>
+            `;
+
+            studentListDiv.innerHTML = html;
+        }
+
+        function goBack() {
+            window.location.href = "admin-dashboard.html";
+        }
+
+        // Load students when page loads
+        loadStudents();
+    </script>
+</body>
+</html>

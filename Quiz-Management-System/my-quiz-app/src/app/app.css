@@ -1,0 +1,101 @@
+/* Basic Styles */
+body {
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+.app-header {
+  background-color: #333;
+  color: white;
+  padding: 1rem;
+  display: flex;
+  flex-direction: column; /* Stack items vertically by default for small screens */
+  align-items: center;
+}
+
+.app-header h1 {
+  margin: 0;
+  font-size: 1.5rem;
+}
+
+.app-header nav a {
+  color: white;
+  text-decoration: none;
+  padding: 0.5rem 1rem;
+  display: block; /* Make links block level for better touch targets on small screens */
+}
+
+.app-header nav a:hover {
+  background-color: #555;
+}
+
+.app-main {
+  padding: 1rem;
+}
+
+.responsive-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); /* Responsive grid */
+  gap: 1rem;
+  margin-top: 1.5rem;
+}
+
+.grid-item {
+  background-color: #f0f0f0;
+  border: 1px solid #ccc;
+  padding: 1.5rem;
+  text-align: center;
+  min-height: 100px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.app-footer {
+  background-color: #eee;
+  padding: 1rem;
+  text-align: center;
+  color: #555;
+  margin-top: 2rem;
+}
+
+/* Media Queries for Responsiveness */
+@media (min-width: 768px) {
+  .app-header {
+    flex-direction: row; /* Align items horizontally on larger screens */
+    justify-content: space-between;
+  }
+
+  .app-header h1 {
+    font-size: 2rem;
+  }
+
+  .app-header nav a {
+    display: inline-block; /* Display links inline for desktop */
+  }
+
+  .app-main {
+    padding: 2rem;
+  }
+}
+
+@media (min-width: 1024px) {
+  .app-header h1 {
+    font-size: 2.5rem;
+  }
+
+  .app-header nav {
+    margin-left: auto; /* Push nav to the right */
+  }
+
+  .app-header nav a {
+    margin-left: 1rem;
+  }
+
+  .app-main {
+    max-width: 1200px; /* Max width for content on very large screens */
+    margin: 0 auto;
+  }
+}

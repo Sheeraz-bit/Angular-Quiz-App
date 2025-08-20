@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Dashboard</title>
+    <link rel="stylesheet" href="CSS/style.css">
+    <style>
+        .dashboard-container {
+            background-color: #fff;
+            padding: 40px;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            width: 400px;
+            text-align: center;
+        }
+        .start-exam-btn {
+            background-color: #28a745;
+            margin: 20px 0;
+        }
+        .start-exam-btn:hover {
+            background-color: #218838;
+        }
+        .logout-btn {
+            background-color: #dc3545;
+            margin-top: 20px;
+        }
+        .logout-btn:hover {
+            background-color: #c82333;
+        }
+    </style>
+</head>
+<body>
+    <div class="dashboard-container">
+        <h1>Welcome, <span id="studentName">Student</span>!</h1>
+        <p>You are about to start your exam. Please make sure you are ready before proceeding.</p>
+        <p><strong>Instructions:</strong></p>
+        <ul style="text-align: left; margin: 20px 0;">
+            <li>You will have 15 minutes to complete the exam</li>
+            <li>There are 10 questions in total</li>
+            <li>You can navigate between questions using the navigation buttons</li>
+            <li>You can skip questions and come back to them later</li>
+            <li>Once you submit, you cannot retake the exam</li>
+        </ul>
+        <button class="start-exam-btn" onclick="startExam()">Start Exam</button>
+        <br>
+        <button class="logout-btn" onclick="logout()">Logout</button>
+    </div>
+
+    <script>
+        // Check if user is logged in and is student
+        const loggedInUser = localStorage.getItem("loggedInUser");
+        if (!loggedInUser) {
+            window.location.href = "index.html";
+        }
+
+        const user = JSON.parse(loggedInUser);
+        if (user.role !== "student") {
+            alert("Access denied. Student privileges required.");
+            window.location.href = "index.html";
+        }
+
+        // Check if user has already attempted the exam
+        if (user.attemptedExam) {
+            alert("You have already attempted the exam. Redirecting to results page.");
+            window.location.href = "result.html";
+        }
+
+        // Display student name
+        document.getElementById("studentName").textContent = user.username;
+
+        function startExam() {
+            if (confirm("Are you sure you want to start the exam? You cannot retake it once submitted.")) {
+                window.location.href = "quiz.html";
+            }
+        }
+
+        function logout() {
+            localStorage.removeItem("loggedInUser");
+            window.location.href = "index.html";
+        }
+    </script>
+</body>
+</html>

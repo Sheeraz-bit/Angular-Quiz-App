@@ -1,0 +1,22 @@
+.dashboard-container {
+  background-color: #fff;
+  padding: 40px;
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  width: 400px;
+  text-align: center;
+}
+.start-exam-btn {
+  background-color: #28a745;
+  margin: 20px 0;
+}
+.start-exam-btn:hover {
+  background-color: #218838;
+}
+.logout-btn {
+  background-color: #dc3545;
+  margin-top: 20px;
+}
+.logout-btn:hover {
+  background-color: #c82333;
+}

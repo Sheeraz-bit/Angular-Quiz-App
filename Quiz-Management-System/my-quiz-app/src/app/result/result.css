@@ -1,0 +1,26 @@
+.result-container {
+  background-color: #fff;
+  padding: 40px;
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  width: 400px;
+  text-align: center;
+}
+.score-display {
+  font-size: 3rem;
+  font-weight: bold;
+  color: #007bff;
+  margin: 20px 0;
+}
+.result-message {
+  font-size: 1.2rem;
+  margin: 20px 0;
+  color: #333;
+}
+.logout-btn {
+  background-color: #dc3545;
+  margin-top: 20px;
+}
+.logout-btn:hover {
+  background-color: #c82333;
+}

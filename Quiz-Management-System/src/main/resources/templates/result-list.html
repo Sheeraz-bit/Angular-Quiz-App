@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Results Management</title>
+    <link rel="stylesheet" href="CSS/style.css">
+    <style>
+        .result-container {
+            background-color: #fff;
+            padding: 40px;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            width: 800px;
+            max-width: 90vw;
+        }
+        .result-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+        }
+        .result-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+        .result-table th, .result-table td {
+            border: 1px solid #ddd;
+            padding: 12px;
+            text-align: left;
+        }
+        .result-table th {
+            background-color: #f8f9fa;
+            font-weight: bold;
+        }
+        .result-table tr:nth-child(even) {
+            background-color: #f8f9fa;
+        }
+        .result-table tr:hover {
+            background-color: #e9ecef;
+        }
+        .back-btn {
+            background-color: #6c757d;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        .score-high {
+            color: #28a745;
+            font-weight: bold;
+        }
+        .score-medium {
+            color: #ffc107;
+            font-weight: bold;
+        }
+        .score-low {
+            color: #dc3545;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <div class="result-container">
+        <div class="result-header">
+            <h1>Results Management</h1>
+            <button class="back-btn" onclick="goBack()">Back to Dashboard</button>
+        </div>
+        
+        <div id="resultList">
+            <p>Loading results...</p>
+        </div>
+    </div>
+
+    <script>
+        // Check if user is logged in and is admin
+        const loggedInUser = localStorage.getItem("loggedInUser");
+        if (!loggedInUser) {
+            window.location.href = "index.html";
+        }
+
+        const user = JSON.parse(loggedInUser);
+        if (user.role !== "admin") {
+            alert("Access denied. Admin privileges required.");
+            window.location.href = "index.html";
+        }
+
+        // Load results
+        async function loadResults() {
+            try {
+                console.log("Loading all results for admin...");
+                const response = await fetch("http://localhost:8082/api/results/all");
+                console.log("Response status:", response.status);
+                
+                if (response.ok) {
+                    const results = await response.json();
+                    console.log("Received results:", results);
+                    displayResults(results);
+                } else {
+                    console.error("Failed to load results. Status:", response.status);
+                    document.getElementById("resultList").innerHTML = "<p>Error loading results. Server returned status: " + response.status + "</p>";
+                }
+            } catch (error) {
+                console.error("Error loading results:", error);
+                document.getElementById("resultList").innerHTML = "<p>Error loading results: " + error.message + "</p>";
+            }
+        }
+
+        function displayResults(results) {
+            const resultListDiv = document.getElementById("resultList");
+            
+            if (results.length === 0) {
+                resultListDiv.innerHTML = "<p>No results found.</p>";
+                return;
+            }
+
+            let html = `
+                <table class="result-table">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>User ID</th>
+                            <th>Score</th>
+                            <th>Percentage</th>
+                            <th>Submitted At</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+            `;
+
+            results.forEach(result => {
+                const percentage = (result.score / 10) * 100;
+                let scoreClass = '';
+                if (percentage >= 80) {
+                    scoreClass = 'score-high';
+                } else if (percentage >= 60) {
+                    scoreClass = 'score-medium';
+                } else {
+                    scoreClass = 'score-low';
+                }
+                
+                html += `
+                    <tr>
+                        <td>${result.id}</td>
+                        <td>${result.userId}</td>
+                        <td class="${scoreClass}">${result.score}/10</td>
+                        <td class="${scoreClass}">${percentage}%</td>
+                        <td>${new Date(result.submittedAt).toLocaleString()}</td>
+                    </tr>
+                `;
+            });
+
+            html += `
+                    </tbody>
+                </table>
+            `;
+
+            resultListDiv.innerHTML = html;
+        }
+
+        function goBack() {
+            window.location.href = "admin-dashboard.html";
+        }
+
+        // Load results when page loads
+        loadResults();
+    </script>
+</body>
+</html>

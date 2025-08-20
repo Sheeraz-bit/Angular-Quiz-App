@@ -1,0 +1,8 @@
+<div class="result-container">
+  <h1>Exam Results</h1>
+  <div id="resultContent">
+    <div class="score-display" [style.color]="scoreColor">{{ scoreDisplay }}</div>
+    <div class="result-message">{{ resultMessage }}</div>
+  </div>
+  <button class="logout-btn" (click)="logout()">Logout</button>
+</div>

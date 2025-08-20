@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add Quiz</title>
+    <link rel="stylesheet" href="CSS/style.css">
+    <style>
+        .add-quiz-container {
+            background-color: #fff;
+            padding: 40px;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            width: 600px;
+            max-width: 90vw;
+        }
+        .form-group {
+            margin-bottom: 20px;
+        }
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+        .form-group input, .form-group textarea {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 14px;
+        }
+        .form-group textarea {
+            height: 100px;
+            resize: vertical;
+        }
+        .submit-btn {
+            background-color: #28a745;
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        .submit-btn:hover {
+            background-color: #218838;
+        }
+        .back-btn {
+            background-color: #6c757d;
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            margin-right: 10px;
+        }
+        .back-btn:hover {
+            background-color: #5a6268;
+        }
+        .button-group {
+            margin-top: 30px;
+        }
+    </style>
+</head>
+<body>
+    <div class="add-quiz-container">
+        <h1>Add New Quiz Question</h1>
+        
+        <form id="addQuizForm">
+            <div class="form-group">
+                <label for="question">Question:</label>
+                <textarea id="question" name="question" required placeholder="Enter the question text"></textarea>
+            </div>
+            
+            <div class="form-group">
+                <label for="optionA">Option A:</label>
+                <input type="text" id="optionA" name="optionA" required placeholder="Enter option A">
+            </div>
+            
+            <div class="form-group">
+                <label for="optionB">Option B:</label>
+                <input type="text" id="optionB" name="optionB" required placeholder="Enter option B">
+            </div>
+            
+            <div class="form-group">
+                <label for="optionC">Option C:</label>
+                <input type="text" id="optionC" name="optionC" required placeholder="Enter option C">
+            </div>
+            
+            <div class="form-group">
+                <label for="optionD">Option D:</label>
+                <input type="text" id="optionD" name="optionD" required placeholder="Enter option D">
+            </div>
+            
+            <div class="form-group">
+                <label for="correctAnswer">Correct Answer:</label>
+                <input type="text" id="correctAnswer" name="correctAnswer" required placeholder="Enter the correct answer">
+            </div>
+            
+            <div class="button-group">
+                <button type="button" class="back-btn" onclick="goBack()">Back</button>
+                <button type="submit" class="submit-btn">Add Quiz</button>
+            </div>
+        </form>
+    </div>
+
+    <script>
+        // Check if user is logged in and is admin
+        const loggedInUser = localStorage.getItem("loggedInUser");
+        if (!loggedInUser) {
+            window.location.href = "index.html";
+        }
+
+        const user = JSON.parse(loggedInUser);
+        if (user.role !== "admin") {
+            alert("Access denied. Admin privileges required.");
+            window.location.href = "index.html";
+        }
+
+        document.getElementById("addQuizForm").addEventListener("submit", async function(event) {
+            event.preventDefault();
+            
+            const formData = {
+                question: document.getElementById("question").value,
+                optA: document.getElementById("optionA").value,
+                optB: document.getElementById("optionB").value,
+                optC: document.getElementById("optionC").value,
+                optD: document.getElementById("optionD").value,
+                answer: document.getElementById("correctAnswer").value
+            };
+
+            try {
+                const response = await fetch("http://localhost:8082/api/quiz/add", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify(formData)
+                });
+
+                if (response.ok) {
+                    alert("Quiz question added successfully!");
+                    window.location.href = "quiz-list.html";
+                } else {
+                    const error = await response.text();
+                    alert("Error adding quiz question: " + error);
+                }
+            } catch (error) {
+                console.error("Error adding quiz:", error);
+                alert("Error adding quiz question.");
+            }
+        });
+
+        function goBack() {
+            window.location.href = "quiz-list.html";
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,15 @@
+<div class="dashboard-container">
+  <h1>Welcome, <span id="studentName">{{ studentName }}</span>!</h1>
+  <p>You are about to start your exam. Please make sure you are ready before proceeding.</p>
+  <p><strong>Instructions:</strong></p>
+  <ul style="text-align: left; margin: 20px 0;">
+    <li>You will have 15 minutes to complete the exam</li>
+    <li>There are 10 questions in total</li>
+    <li>You can navigate between questions using the navigation buttons</li>
+    <li>You can skip questions and come back to them later</li>
+    <li>Once you submit, you cannot retake the exam</li>
+  </ul>
+  <button class="start-exam-btn" (click)="startExam()">Start Exam</button>
+  <br>
+  <button class="logout-btn" (click)="logout()">Logout</button>
+</div>

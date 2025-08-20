@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Exam Results</title>
+    <link rel="stylesheet" href="CSS/style.css">
+    <style>
+        .result-container {
+            background-color: #fff;
+            padding: 40px;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            width: 400px;
+            text-align: center;
+        }
+        .score-display {
+            font-size: 3rem;
+            font-weight: bold;
+            color: #007bff;
+            margin: 20px 0;
+        }
+        .result-message {
+            font-size: 1.2rem;
+            margin: 20px 0;
+            color: #333;
+        }
+        .logout-btn {
+            background-color: #dc3545;
+            margin-top: 20px;
+        }
+        .logout-btn:hover {
+            background-color: #c82333;
+        }
+    </style>
+</head>
+<body>
+    <div class="result-container">
+        <h1>Exam Results</h1>
+        <div id="resultContent">
+            <div class="score-display" id="scoreDisplay">Loading...</div>
+            <div class="result-message" id="resultMessage"></div>
+        </div>
+        <button class="logout-btn" onclick="logout()">Logout</button>
+    </div>
+
+    <script>
+        // check if user is logged in or not
+        const loggedInUser = localStorage.getItem("loggedInUser");
+        if (!loggedInUser) {
+            // no user found, go back to login
+            window.location.href = "index.html";
+        }
+
+        const user = JSON.parse(loggedInUser);
+        // admin should not see this page
+        if (user.role === "admin") {
+            window.location.href = "admin-dashboard.html";
+        }
+
+        // Load and display results
+        async function loadResults() {
+            try {
+                const user = JSON.parse(loggedInUser);
+                console.log("Loading results for user:", user);
+                console.log("Making request to:", `http://localhost:8082/api/results/user/${user.id}`);
+                const response = await fetch(`http://localhost:8082/api/results/user/${user.id}`);
+                
+                if (response.ok) {
+                    const results = await response.json();
+                    console.log("Received results:", results);
+                    if (results.length > 0) {
+                        // Since results are ordered by submittedAtDesc, the first result is the latest
+                        const latestResult = results[0];
+                        console.log("Latest result:", latestResult);
+                        displayResult(latestResult);
+                    } else {
+                        document.getElementById("scoreDisplay").textContent = "No results found";
+                        document.getElementById("resultMessage").textContent = "You haven't taken any exams yet.";
+                    }
+                } else {
+                    console.error("Failed to fetch results. Status:", response.status);
+                    document.getElementById("scoreDisplay").textContent = "Error";
+                    document.getElementById("resultMessage").textContent = "Failed to load results.";
+                }
+            } catch (error) {
+                console.error("Error loading results:", error);
+                document.getElementById("scoreDisplay").textContent = "Error";
+                document.getElementById("resultMessage").textContent = "Failed to load results.";
+            }
+        }
+
+        function displayResult(result) {
+            const scoreDisplay = document.getElementById("scoreDisplay");
+            const resultMessage = document.getElementById("resultMessage");
+            
+            scoreDisplay.textContent = `${result.score}/10`;
+            
+            const percentage = (result.score / 10) * 100;
+            let message = "";
+            
+            if (percentage >= 80) {
+                message = "Excellent! You passed with flying colors!";
+                scoreDisplay.style.color = "#28a745";
+            } else if (percentage >= 60) {
+                message = "Good job! You passed the exam.";
+                scoreDisplay.style.color = "#007bff";
+            } else {
+                message = "Keep studying! You can do better next time.";
+                scoreDisplay.style.color = "#dc3545";
+            }
+            
+            resultMessage.textContent = message;
+        }
+
+        function logout() {
+            localStorage.removeItem("loggedInUser");
+            window.location.href = "index.html";
+        }
+
+        // Load results when page loads
+        loadResults();
+    </script>
+</body>
+</html>
