@@ -1,0 +1,34 @@
+<div class="student-container">
+  <div class="student-header">
+    <h1>Student Management</h1>
+    <button class="back-btn" (click)="goBack()">Back to Dashboard</button>
+  </div>
+
+  <div *ngIf="students.length === 0">
+    <p>No students found.</p>
+  </div>
+  <table class="student-table" *ngIf="students.length > 0">
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>Username</th>
+        <th>Email</th>
+        <th>Role</th>
+        <th>Exam Attempted</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let student of students">
+        <td>{{ student.id }}</td>
+        <td>{{ student.username }}</td>
+        <td>{{ student.email }}</td>
+        <td>{{ student.role }}</td>
+        <td>
+          <span [class.attempted]="student.attemptedExam" [class.not-attempted]="!student.attemptedExam">
+            {{ student.attemptedExam ? 'Yes' : 'No' }}
+          </span>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>

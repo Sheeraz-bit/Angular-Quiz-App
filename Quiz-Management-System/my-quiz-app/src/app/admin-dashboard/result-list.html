@@ -1,0 +1,38 @@
+<div class="result-container">
+  <div class="result-header">
+    <h1>Results Management</h1>
+    <button class="back-btn" (click)="goBack()">Back to Dashboard</button>
+  </div>
+
+  <div *ngIf="results.length === 0">
+    <p>No results found.</p>
+  </div>
+  <table class="result-table" *ngIf="results.length > 0">
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>User ID</th>
+        <th>Score</th>
+        <th>Percentage</th>
+        <th>Submitted At</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let result of results">
+        <td>{{ result.id }}</td>
+        <td>{{ result.userId }}</td>
+        <td [class.score-high]="(result.score / 10) * 100 >= 80" 
+            [class.score-medium]="(result.score / 10) * 100 >= 60 && (result.score / 10) * 100 < 80" 
+            [class.score-low]="(result.score / 10) * 100 < 60">
+            {{ result.score }}/10
+        </td>
+        <td [class.score-high]="(result.score / 10) * 100 >= 80" 
+            [class.score-medium]="(result.score / 10) * 100 >= 60 && (result.score / 10) * 100 < 80" 
+            [class.score-low]="(result.score / 10) * 100 < 60">
+            {{ (result.score / 10) * 100 }}%
+        </td>
+        <td>{{ result.submittedAt | date:'yyyy-MM-dd HH:mm:ss' }}</td>
+      </tr>
+    </tbody>
+  </table>
+</div>

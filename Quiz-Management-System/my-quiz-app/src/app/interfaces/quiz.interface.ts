@@ -1,9 +1,9 @@
 export interface Quiz {
-  id: number;
+  id: number | null;
   question: string;
   optA: string;
   optB: string;
   optC: string;
   optD: string;
-  answer: string; // The correct answer (e.g., 'A', 'B', 'C', 'D')
+  answer: string;
 }

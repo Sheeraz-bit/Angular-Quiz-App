@@ -1,0 +1,45 @@
+<div class="add-quiz-container">
+  <h1>Edit Quiz Question</h1>
+  <form (ngSubmit)="saveQuiz()" #quizForm="ngForm">
+    <div class="form-group">
+      <label for="question">Question:</label>
+      <textarea id="question" name="question" [(ngModel)]="quiz.question" required></textarea>
+    </div>
+
+    <div class="form-group">
+      <label for="optA">Option A:</label>
+      <input type="text" id="optA" name="optA" [(ngModel)]="quiz.optA" required>
+    </div>
+
+    <div class="form-group">
+      <label for="optB">Option B:</label>
+      <input type="text" id="optB" name="optB" [(ngModel)]="quiz.optB" required>
+    </div>
+
+    <div class="form-group">
+      <label for="optC">Option C:</label>
+      <input type="text" id="optC" name="optC" [(ngModel)]="quiz.optC" required>
+    </div>
+
+    <div class="form-group">
+      <label for="optD">Option D:</label>
+      <input type="text" id="optD" name="optD" [(ngModel)]="quiz.optD" required>
+    </div>
+
+    <div class="form-group">
+      <label for="answer">Correct Answer:</label>
+      <select id="answer" name="answer" [(ngModel)]="quiz.answer" required>
+        <option value="">Select Correct Option</option>
+        <option value="A">Option A</option>
+        <option value="B">Option B</option>
+        <option value="C">Option C</option>
+        <option value="D">Option D</option>
+      </select>
+    </div>
+
+    <div class="form-actions">
+      <button type="submit" [disabled]="!quizForm.valid">Save Changes</button>
+      <button type="button" class="back-btn" (click)="goBack()">Cancel</button>
+    </div>
+  </form>
+</div>

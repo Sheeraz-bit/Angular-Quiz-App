@@ -45,8 +45,13 @@ export class AuthService {
         }),
         catchError(error => {
           console.error('Login failed:', error);
-          // Return an Observable of null to indicate login failure without breaking the stream
-          return of(null);
+          let errorMessage = 'An unknown error occurred. Please try again.';
+          if (error.error && typeof error.error === 'string') {
+            errorMessage = error.error; // Backend message
+          } else if (error.message) {
+            errorMessage = error.message; // Generic HTTP error message
+          }
+          return throwError(() => new Error(errorMessage));
         })
       );
   }

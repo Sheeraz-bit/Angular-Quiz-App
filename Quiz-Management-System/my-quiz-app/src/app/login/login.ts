@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, ChangeDetectorRef } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { Router, RouterModule } from '@angular/router'; // Import RouterModule
 import { AuthService } from '../auth'; // Import the AuthService
@@ -15,7 +15,7 @@ export class LoginComponent {
   password: string = '';
   errorMessage: string = '';
 
-  constructor(private authService: AuthService, private router: Router) {}
+  constructor(private authService: AuthService, private router: Router, private cdr: ChangeDetectorRef) {}
 
   login(): void {
     this.errorMessage = '';
@@ -35,14 +35,17 @@ export class LoginComponent {
             this.router.navigate(['/admin-dashboard']);
           } else {
             this.errorMessage = 'Invalid user role!';
+            this.cdr.detectChanges(); // Trigger change detection
           }
         } else {
           this.errorMessage = 'Invalid email or password';
+          this.cdr.detectChanges(); // Trigger change detection
         }
       },
       error: (error) => {
         console.error('Login failed:', error);
-        this.errorMessage = 'Something went wrong. Please try again.';
+        this.errorMessage = error.message; 
+        this.cdr.detectChanges(); // Trigger change detection
       }
     });
   }

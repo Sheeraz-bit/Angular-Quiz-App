@@ -1,0 +1,72 @@
+<div class="quiz-container">
+  <div class="quiz-header">
+    <h1>Quiz Management</h1>
+    <div>
+      <button class="add-quiz-btn" (click)="addQuiz()">Add New Quiz</button>
+      <button class="back-btn" (click)="goBack()">Back to Dashboard</button>
+    </div>
+  </div>
+
+  <div class="search-section">
+    <input type="text" class="search-input" placeholder="Search questions..." [(ngModel)]="searchTerm" (keyup)="filterQuizzes()">
+    <select [(ngModel)]="pageSize" (change)="changePageSize()">
+      <option value="10">10 per page</option>
+      <option value="25">25 per page</option>
+      <option value="50">50 per page</option>
+      <option value="100">100 per page</option>
+    </select>
+  </div>
+
+  <div class="stats">
+    <span>{{ statsText }}</span>
+  </div>
+
+  <div class="table-container">
+    <div *ngIf="filteredQuizzes.length === 0" class="no-results">
+      <h3>No quiz questions found</h3><p>Try adjusting your search terms.</p>
+    </div>
+    <table class="quiz-table" *ngIf="filteredQuizzes.length > 0">
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Question</th>
+          <th>Option A</th>
+          <th>Option B</th>
+          <th>Option C</th>
+          <th>Option D</th>
+          <th>Correct Answer</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let quiz of getCurrentPageQuizzes();">
+          <td>{{ quiz.id }}</td>
+          <td class="question-cell">{{ quiz.question }}</td>
+          <td class="question-cell">{{ quiz.optA }}</td>
+          <td class="question-cell">{{ quiz.optB }}</td>
+          <td class="question-cell">{{ quiz.optC }}</td>
+          <td class="question-cell">{{ quiz.optD }}</td>
+          <td class="question-cell">{{ quiz.answer }}</td>
+          <td class="action-buttons">
+            <button class="edit-btn" (click)="editQuiz(quiz.id!)">Edit</button>
+            <button class="delete-btn" (click)="deleteQuiz(quiz.id!)">Delete</button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="pagination">
+    <button (click)="changePage(currentPage - 1)" [disabled]="currentPage === 1">Previous</button>
+    <ng-container *ngIf="startPage > 1">
+      <button (click)="changePage(1)">1</button>
+      <span *ngIf="startPage > 2">...</span>
+    </ng-container>
+    <button *ngFor="let i of getPageNumbers()" (click)="changePage(i)" [class.active]="i === currentPage">{{ i }}</button>
+    <ng-container *ngIf="endPage < totalPages">
+      <span *ngIf="endPage < totalPages - 1">...</span>
+      <button (click)="changePage(totalPages)">{{ totalPages }}</button>
+    </ng-container>
+    <button (click)="changePage(currentPage + 1)" [disabled]="currentPage === totalPages">Next</button>
+  </div>
+</div>

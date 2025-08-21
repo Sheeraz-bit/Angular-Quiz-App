@@ -1,0 +1,80 @@
+<div class="add-quiz-container">
+  <h1>Add New Quiz Question</h1>
+
+  <form (ngSubmit)="addQuiz()" #quizForm="ngForm">
+    <div class="form-group">
+      <label for="question">Question:</label>
+      <textarea
+        id="question"
+        name="question"
+        required
+        placeholder="Enter the question text"
+        [(ngModel)]="newQuiz.question"
+      ></textarea>
+    </div>
+
+    <div class="form-group">
+      <label for="optionA">Option A:</label>
+      <input
+        type="text"
+        id="optionA"
+        name="optionA"
+        required
+        placeholder="Enter option A"
+        [(ngModel)]="newQuiz.optA"
+      />
+    </div>
+
+    <div class="form-group">
+      <label for="optionB">Option B:</label>
+      <input
+        type="text"
+        id="optionB"
+        name="optionB"
+        required
+        placeholder="Enter option B"
+        [(ngModel)]="newQuiz.optB"
+      />
+    </div>
+
+    <div class="form-group">
+      <label for="optionC">Option C:</label>
+      <input
+        type="text"
+        id="optionC"
+        name="optionC"
+        required
+        placeholder="Enter option C"
+        [(ngModel)]="newQuiz.optC"
+      />
+    </div>
+
+    <div class="form-group">
+      <label for="optionD">Option D:</label>
+      <input
+        type="text"
+        id="optionD"
+        name="optionD"
+        required
+        placeholder="Enter option D"
+        [(ngModel)]="newQuiz.optD"
+      />
+    </div>
+
+    <div class="form-group">
+      <label for="answer">Correct Answer:</label>
+      <select id="answer" name="answer" [(ngModel)]="newQuiz.answer" required>
+        <option value="">Select Correct Option</option>
+        <option value="A">Option A</option>
+        <option value="B">Option B</option>
+        <option value="C">Option C</option>
+        <option value="D">Option D</option>
+      </select>
+    </div>
+
+    <div class="form-actions">
+      <button type="submit" [disabled]="!quizForm.valid">Add Quiz</button>
+      <button type="button" class="back-btn" (click)="goBack()">Back</button>
+    </div>
+  </form>
+</div>
