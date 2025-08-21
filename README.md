@@ -1,9 +1,10 @@
-# Angular-Quiz-App(Work In Progress: 90% ✅)
+# Angular-Quiz-App(Work In Progress: 99% ✅)
 
 ## Left tasks
 - Database ✅
 - Backend ✅
-- Frontend (Debugging)
+- Frontend (Debugging) ✅
+- Updating README file
 
 ---
 
