@@ -91,10 +91,10 @@ erDiagram
     users {
         int id PK "Primary Key"
         string username
-        string email UNIQUE "Unique Email"
+        string email "Unique Email Address"
         string password
         string role "User Role (STUDENT/TEACHER)"
-        boolean attempt "Has Attempted Quiz" 
+        boolean attempt "Has Attempted Quiz"
     }
     
     quiz_questions {
