@@ -83,32 +83,35 @@ The database schema includes the following tables:
 
 ```mermaid
 erDiagram
+    %% Quiz Management System Database Schema
+    %% Optimized for GitHub rendering
+
     users ||--o{ results : has_taken
     
     users {
-        SERIAL id PK
-        VARCHAR(100) username
-        VARCHAR(100) email UNIQUE
-        VARCHAR(255) password
-        VARCHAR(20) role
-        BOOLEAN attempt
+        int id PK "Primary Key"
+        string username
+        string email UNIQUE "Unique Email"
+        string password
+        string role "User Role (STUDENT/TEACHER)"
+        boolean attempt "Has Attempted Quiz" 
     }
     
     quiz_questions {
-        SERIAL id PK
-        TEXT question
-        TEXT opta
-        TEXT optb
-        TEXT optc
-        TEXT optd
-        CHAR(1) answer
+        int id PK "Primary Key"
+        string question
+        string opta "Option A"
+        string optb "Option B"
+        string optc "Option C"
+        string optd "Option D"
+        char answer "Correct Option (A, B, C, D)"
     }
     
     results {
-        SERIAL id PK
-        INTEGER user_id FK
-        INTEGER score
-        TIMESTAMP submitted_at
+        int id PK "Primary Key"
+        int user_id FK "References users(id)"
+        int score
+        timestamp submitted_at
     }
 ```
 ---
