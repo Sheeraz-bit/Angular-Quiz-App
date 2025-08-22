@@ -86,13 +86,13 @@ erDiagram
     users ||--o{ results : has_taken
     users {
         SERIAL id PK
-        VARCHAR username
-        VARCHAR email UNIQUE
-        VARCHAR password
-        VARCHAR role
+        VARCHAR(100) username
+        VARCHAR(100) email UNIQUE
+        VARCHAR(255) password
+        VARCHAR(20) role
         BOOLEAN attempt
     }
-    quiz_questions ||--o{ results : relates_to
+    
     quiz_questions {
         SERIAL id PK
         TEXT question
@@ -100,8 +100,9 @@ erDiagram
         TEXT optb
         TEXT optc
         TEXT optd
-        CHAR answer
+        CHAR(1) answer
     }
+    
     results {
         SERIAL id PK
         INTEGER user_id FK
