@@ -55,56 +55,58 @@ This project implements a comprehensive Quiz Management System with a Spring Boo
 
 ## Database Tables
 
-The database schema includes the following main tables:
+The database schema includes the following tables:
 
--   **`USER`**: Stores user information, including roles and exam status.
--   **`QUESTION`**: Stores individual questions, their options, and the correct answer, linked to a specific quiz.
--   **`RESULT`**: Stores the final score of a student for a particular quiz.
+-   **`users`**: Stores user authentication and profile information.
+    -   `id`: Primary key, auto-incrementing.
+    -   `username`: User's display name.
+    -   `email`: Unique email address for login.
+    -   `password`: Hashed password.
+    -   `role`: User's role (`STUDENT` or `TEACHER`).
+    -   `attempt`: Boolean indicating if the user has attempted a quiz.
+
+-   **`quiz_questions`**: Stores individual quiz questions and their options.
+    -   `id`: Primary key, auto-incrementing.
+    -   `question`: The text of the quiz question.
+    -   `opta`, `optb`, `optc`, `optd`: Text for the four multiple-choice options.
+    -   `answer`: The correct option (A, B, C, or D).
+
+-   **`results`**: Stores the outcome of each quiz attempt by a user.
+    -   `id`: Primary key, auto-incrementing.
+    -   `user_id`: Foreign key referencing the `users` table.
+    -   `score`: The score obtained in the quiz.
+    -   `submitted_at`: Timestamp of when the result was submitted.
+
+---
 
 ## Entity-Relationship (ER) Diagram
 
 ```mermaid
 erDiagram
-    USER ||--o{ QUIZ_ATTEMPT : has
-    USER { 
-        int id PK
-        string name
-        string email
-        string password
-        string role
-        boolean hasAttemptedExam
+    users ||--o{ results : has_taken
+    users {
+        SERIAL id PK
+        VARCHAR username
+        VARCHAR email UNIQUE
+        VARCHAR password
+        VARCHAR role
+        BOOLEAN attempt
     }
-    QUIZ_ATTEMPT ||--o{ RESULT : generates
-    QUIZ_ATTEMPT { 
-        int id PK
-        int userId FK
-        int quizId FK
-        int score
-        int totalQuestions
-        string submittedAt
+    quiz_questions ||--o{ results : relates_to
+    quiz_questions {
+        SERIAL id PK
+        TEXT question
+        TEXT opta
+        TEXT optb
+        TEXT optc
+        TEXT optd
+        CHAR answer
     }
-    QUIZ ||--o{ QUESTION : contains
-    QUIZ { 
-        int id PK
-        string title
-        string description
-    }
-    QUESTION { 
-        int id PK
-        int quizId FK
-        string questionText
-        string optionA
-        string optionB
-        string optionC
-        string optionD
-        char answer
-    }
-    RESULT { 
-        int id PK
-        int userId FK
-        int quizId FK
-        int score
-        string submittedAt
+    results {
+        SERIAL id PK
+        INTEGER user_id FK
+        INTEGER score
+        TIMESTAMP submitted_at
     }
 ```
 ---
