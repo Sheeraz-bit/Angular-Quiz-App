@@ -83,46 +83,32 @@ The database schema includes the following tables:
 
 ```mermaid
 erDiagram
-    USER ||--o{ QUIZ_ATTEMPT : has
-    USER { 
-        int id PK
-        string name
-        string email
-        string password
-        string role
-        boolean hasAttemptedExam
+    users ||--o{ results : has_taken
+    
+    users {
+        SERIAL id PK
+        VARCHAR(100) username
+        VARCHAR(100) email UNIQUE
+        VARCHAR(255) password
+        VARCHAR(20) role
+        BOOLEAN attempt
     }
-    QUIZ_ATTEMPT ||--o{ RESULT : generates
-    QUIZ_ATTEMPT { 
-        int id PK
-        int userId FK
-        int quizId FK
-        int score
-        int totalQuestions
-        string submittedAt
+    
+    quiz_questions {
+        SERIAL id PK
+        TEXT question
+        TEXT opta
+        TEXT optb
+        TEXT optc
+        TEXT optd
+        CHAR(1) answer
     }
-    QUIZ ||--o{ QUESTION : contains
-    QUIZ { 
-        int id PK
-        string title
-        string description
-    }
-    QUESTION { 
-        int id PK
-        int quizId FK
-        string questionText
-        string optionA
-        string optionB
-        string optionC
-        string optionD
-        char answer
-    }
-    RESULT { 
-        int id PK
-        int userId FK
-        int quizId FK
-        int score
-        string submittedAt
+    
+    results {
+        SERIAL id PK
+        INTEGER user_id FK
+        INTEGER score
+        TIMESTAMP submitted_at
     }
 ```
 ---
