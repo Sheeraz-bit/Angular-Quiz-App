@@ -29,6 +29,8 @@ This project implements a comprehensive Quiz Management System with a Spring Boo
 -   **Take Quiz:** Participate in quizzes with a timer and question navigation.
 -   **View Results:** See detailed scores and feedback after completing a quiz.
 
+---
+
 ## Technologies Used
 
 ### Frontend (Angular)
@@ -48,6 +50,8 @@ This project implements a comprehensive Quiz Management System with a Spring Boo
 -   **Maven:** Dependency management and build automation tool.
 -   **RESTful APIs:** For communication between the frontend and backend.
 -   **Spring Security:** For authentication and authorization (though explicit configuration was primarily for CORS).
+
+---
 
 ## Database Tables
 
@@ -105,6 +109,7 @@ erDiagram
         string submittedAt
     }
 ```
+---
 
 ## Pages/Routes
 
