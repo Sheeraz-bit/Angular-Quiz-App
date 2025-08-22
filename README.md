@@ -58,9 +58,7 @@ This project implements a comprehensive Quiz Management System with a Spring Boo
 The database schema includes the following main tables:
 
 -   **`USER`**: Stores user information, including roles and exam status.
--   **`QUIZ`**: Stores details about each quiz, such as title and description.
 -   **`QUESTION`**: Stores individual questions, their options, and the correct answer, linked to a specific quiz.
--   **`QUIZ_ATTEMPT`**: Records each instance of a student attempting a quiz, including their score.
 -   **`RESULT`**: Stores the final score of a student for a particular quiz.
 
 ## Entity-Relationship (ER) Diagram
