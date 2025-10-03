@@ -1,5 +1,5 @@
 # Angular-Quiz-App
-## Project Description
+## My Project Description
 This project implements a comprehensive Quiz Management System with a Spring Boot backend and an Angular frontend. It provides functionalities for both administrators and students to manage quizzes, take exams, and view results. The system is designed to be robust, user-friendly, and efficient for educational environments.
 
 <a href="https://www.buymeacoffee.com/SK_Sheeraz" target="_blank"><img src="https://cdn.buymeacoffee.com/buttons/v2/default-yellow.png" alt="Buy Me A Coffee" style="height: 60px !important;width: 217px !important;" ></a>
