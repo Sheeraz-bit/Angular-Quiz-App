@@ -34,22 +34,17 @@ This project implements a comprehensive Quiz Management System with a Spring Boo
 ## Technologies Used
 
 ### Frontend (Angular)
--   **Angular CLI:** For scaffolding and managing Angular projects.
--   **TypeScript:** Primary language for Angular development.
--   **HTML5 & CSS3:** For structuring and styling the user interface.
--   **RxJS:** For reactive programming and handling asynchronous operations (e.g., HTTP requests).
--   **Angular Router:** For navigation and managing application states.
--   **Angular Forms (FormsModule):** For handling user input and form validation.
--   **HttpClientModule:** For making HTTP requests to the backend API.
+-   **TypeScript**
+-   **HTML5 & CSS3**
+-   **JS**
+-   **Angular Router**
 
 ### Backend (Spring Boot)
--   **Java:** Core programming language.
--   **Spring Boot:** Framework for building robust, stand-alone, production-grade Spring applications.
--   **Spring Data JPA:** For easy data access and persistence with Hibernate.
--   **PostgreSQL:** Relational database management system.
--   **Maven:** Dependency management and build automation tool.
--   **RESTful APIs:** For communication between the frontend and backend.
--   **Spring Security:** For authentication and authorization (though explicit configuration was primarily for CORS).
+-   **Java**
+-   **Spring Boot**
+-   **PostgreSQL**
+-   **Maven**
+-   **RESTful APIs**
 
 ---
 
